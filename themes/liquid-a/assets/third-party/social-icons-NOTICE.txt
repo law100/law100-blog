@@ -1,0 +1,7 @@
+GitHub and Bilibili SVG paths are sourced from Simple Icons:
+https://github.com/simple-icons/simple-icons
+License: CC0-1.0. Brand names and logos remain subject to their owners' rights.
+
+The mail SVG path is sourced from Lucide:
+https://github.com/lucide-icons/lucide
+License: ISC.

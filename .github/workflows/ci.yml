@@ -1,0 +1,17 @@
+name: Source checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/check-public-source.mjs
+      - run: node --test themes/liquid-a/tests/*.test.cjs plugins/law100-savio-comments/tests/*.test.cjs
+      - run: find themes plugins -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: npm ci && npm test && npm run build
+        working-directory: plugins/law100-studio

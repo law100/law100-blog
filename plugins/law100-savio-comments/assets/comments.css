@@ -1,0 +1,347 @@
+.savio-comment-account {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 2px 0 4px;
+    padding: 16px 0;
+    border-block: 1px solid var(--appearance-rule,#D8DADD);
+    color: var(--appearance-ink,#1D1D1F);
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+@media (max-width:782px) {
+    .comment-form .savio-comment-account { flex-direction:column; align-items:stretch; gap:8px; }
+    .comment-form .savio-comment-account__actions { justify-content:flex-start; }
+    .comment-form .savio-comment-account__identity small { font-size:13px; }
+}
+
+.savio-comment-account__identity {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 12px;
+}
+
+.savio-comment-account__identity img {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+}
+
+.savio-comment-account__identity span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.savio-comment-account__identity strong {
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: 620;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.savio-comment-account__identity small {
+    color: var(--appearance-muted,#686B70);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.savio-comment-account__actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+}
+
+.savio-text-action,
+.savio-auth-link {
+    min-height: 44px;
+    padding: 0 10px;
+    border: 0;
+    color: var(--appearance-ink,#1D1D1F);
+    background: transparent;
+    font: 560 0.8rem/1 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    text-decoration: underline;
+    text-decoration-color: rgba(29, 29, 31, 0.32);
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+}
+
+.savio-text-action {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.savio-text-action:active {
+    opacity: 0.62;
+}
+
+.savio-text-action:hover,
+.savio-auth-link:hover {
+    text-decoration-color: currentColor;
+}
+
+.savio-text-action:focus-visible,
+.savio-auth-link:focus-visible,
+.savio-auth-close:focus-visible,
+.savio-auth-tabs button:focus-visible,
+.savio-auth-primary:focus-visible,
+.savio-auth-form input:focus-visible {
+    outline: 2px solid var(--appearance-strong,#111214);
+    outline-offset: 3px;
+}
+
+.savio-auth-dialog {
+    width: min(100% - 32px, 440px);
+    max-height: min(760px, calc(100dvh - 32px));
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--appearance-rule,#D8DADD);
+    border-radius: 10px;
+    color: var(--appearance-ink,#1D1D1F);
+    background: var(--appearance-paper,#FCFCFD);
+    box-shadow: none;
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+.savio-auth-dialog::backdrop {
+    background: rgba(16, 17, 18, 0.46);
+    backdrop-filter: blur(3px);
+}
+
+.savio-auth-dialog[open] {
+    animation: savio-dialog-in 160ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.savio-auth-shell {
+    padding: 26px;
+    overflow-y: auto;
+}
+
+.savio-auth-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.savio-auth-kicker {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--appearance-muted,#686B70);
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.savio-auth-header h3 {
+    margin: 0;
+    font-size: clamp(1.25rem, 3vw, 1.55rem);
+    font-weight: 620;
+    letter-spacing: -0.025em;
+}
+
+.savio-auth-close {
+    display: grid;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    margin: -9px -9px 0 0;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    color: var(--appearance-muted,#686B70);
+    background: transparent;
+    font: 300 1.5rem/1 system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.savio-auth-close:hover {
+    color: var(--appearance-ink,#1D1D1F);
+    background: var(--appearance-hover,#EEF0F2);
+}
+
+.savio-auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 24px 0 20px;
+    padding: 3px;
+    border: 1px solid var(--appearance-rule,#D8DADD);
+    border-radius: 8px;
+    background: var(--appearance-hover,#F0F1F3);
+}
+
+.savio-auth-tabs button {
+    min-height: 40px;
+    border: 0;
+    border-radius: 5px;
+    color: var(--appearance-muted,#686B70);
+    background: transparent;
+    font: 580 0.86rem/1 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.savio-auth-tabs button[aria-selected="true"] {
+    color: var(--appearance-ink,#1D1D1F);
+    background: var(--appearance-input,#FFFFFF);
+    box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
+}
+
+.savio-auth-tabs button:active {
+    background: var(--appearance-hover,#E3E5E8);
+}
+
+.savio-auth-form {
+    display: grid;
+    gap: 16px;
+}
+
+.savio-auth-form[hidden],
+.savio-auth-tabs[hidden],
+.savio-auth-error[hidden] {
+    display: none;
+}
+
+.comment-form .comment-form-cookies-consent[hidden] {
+  display: none !important;
+}
+
+.savio-auth-form label {
+    display: grid;
+    gap: 7px;
+    color: var(--appearance-ink,#1D1D1F);
+    font-size: 0.82rem;
+    font-weight: 580;
+}
+
+.savio-auth-form label small,
+.savio-auth-copy {
+    margin: 0;
+    color: var(--appearance-muted,#686B70);
+    font-size: 0.76rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.savio-auth-form input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 12px;
+    border: 1px solid var(--appearance-input-rule,#C9CCD1);
+    border-radius: 6px;
+    color: var(--appearance-ink,#1D1D1F);
+    background: var(--appearance-input,#FFFFFF);
+    font: 400 1rem/1.3 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+.savio-auth-form input:focus {
+    border-color: var(--appearance-ink,#1D1D1F);
+}
+
+.savio-auth-form input:focus-visible {
+    border-color: var(--appearance-strong,#111214);
+    outline: 0;
+    box-shadow: 0 0 0 1px var(--appearance-strong,#111214);
+}
+
+.savio-auth-primary {
+    min-height: 48px;
+    margin-top: 2px;
+    padding: 0 18px;
+    border: 1px solid var(--appearance-strong,#111214);
+    border-radius: 6px;
+    color: var(--appearance-button-text,#FFFFFF);
+    background: var(--appearance-strong,#111214);
+    font: 620 0.9rem/1 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.savio-auth-primary:hover {
+    background: var(--appearance-button-hover,#292B2E);
+}
+
+.savio-auth-primary:active {
+    transform: scale(0.985);
+}
+
+.savio-auth-primary:disabled {
+    opacity: 0.52;
+    cursor: wait;
+}
+
+.savio-auth-link {
+    justify-self: center;
+}
+
+.savio-auth-error {
+    margin: 18px 0 0;
+    padding: 10px 12px;
+    border-left: 2px solid var(--appearance-error-rule,#C63831);
+    color: var(--appearance-error,#7B2420);
+    background: var(--appearance-error-bg,#FAF0EF);
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.discussion-author-mark--savio {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--appearance-muted,#686B70);
+    font-size: 0.72rem;
+    font-weight: 560;
+}
+
+@keyframes savio-dialog-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 640px) {
+    .savio-comment-account {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .savio-comment-account__identity small {
+        max-width: 20em;
+    }
+
+    .savio-comment-account__actions {
+        margin-right: -8px;
+    }
+
+    .savio-auth-dialog {
+        width: 100%;
+        max-width: none;
+        max-height: min(88dvh, 760px);
+        margin: auto 0 0;
+        border-width: 1px 0 0;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .savio-auth-shell {
+        padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .savio-auth-dialog[open] {
+        animation: none;
+    }
+
+    .savio-auth-primary {
+        transition: none;
+    }
+}

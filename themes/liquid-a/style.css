@@ -1,0 +1,16 @@
+/*
+Theme Name: LiquidGlass
+Author: law100
+Author URI:
+Description: 液态玻璃质感 WordPress 主题，毛玻璃效果、苹果风格、高级简约，支持完全自定义。
+Version: 1.1
+Requires at least: 5.0
+Tested up to: 6.5
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: liquidglass
+Tags: blog, portfolio, custom-colors, custom-header, custom-logo, featured-images, full-width-template, theme-options, threaded-comments, translation-ready
+*/
+
+/* 此文件仅用于主题注册，实际样式在 assets/css/main.css 中加载 */

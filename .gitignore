@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+wp-config.php
+*.sql
+*.sql.gz
+*.pem
+*.key
+*.p12
+*.log
+backups/
+uploads/
+.DS_Store
+artifacts/
