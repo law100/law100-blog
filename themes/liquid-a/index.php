@@ -11,8 +11,7 @@ $is_home_landing = is_front_page() && is_home();
 
 <?php if ( $is_home_landing ) : ?>
 	<?php get_template_part( 'template-parts/hero' ); ?>
-	<div class="home-content-cover">
-	<?php get_template_part( 'template-parts/home-intro' ); ?>
+	<div id="content-start" class="home-content-cover">
 <?php endif; ?>
 
 <main id="primary" class="site-main container">

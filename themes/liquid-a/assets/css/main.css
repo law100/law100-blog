@@ -4396,6 +4396,10 @@ a.about-contact-row:active {
     .home.blog .home-landscape {
         background-position: 50% 36%;
     }
+
+    .home.blog .section-heading {
+        padding-top: 128px;
+    }
 }
 
 /* ============ 隐藏更新日志 ============ */
