@@ -4310,7 +4310,27 @@ a.about-contact-row:active {
 
 /* ============ 沉浸式固定背景 ============ */
 /* 风景固定在视口后方；Hero 前景正常滚走，首页内容作为不透明幕布向上覆盖。 */
+.home.blog .home-landscape {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: 50% 44%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+.home.blog .home-landscape::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.32);
+}
+
 .home.blog .site-hero {
+    z-index: 1;
     overflow: visible;
 }
 
@@ -4340,6 +4360,23 @@ a.about-contact-row:active {
     background: linear-gradient(160deg, #f3f3f6 0%, #f9f9fb 40%, #f5f5f8 100%);
 }
 
+.home.blog .home-contact {
+    border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.home.blog .site-footer {
+    position: relative;
+    z-index: 4;
+    border-top-color: rgba(255, 255, 255, 0.22);
+}
+
+.home.blog .site-footer .site-info,
+.home.blog .site-footer .copyright,
+.home.blog .site-footer a {
+    color: #f6f7f8;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
 @supports (height: 100lvh) {
     .home.blog .hero-media {
         height: 100lvh;
@@ -4347,6 +4384,11 @@ a.about-contact-row:active {
 }
 
 @media (max-width: 768px) {
+    .home.blog .home-landscape {
+        height: 100svh;
+        background-position: 50% 36%;
+    }
+
     .home.blog .hero-media {
         height: 100vh;
         height: 100svh;

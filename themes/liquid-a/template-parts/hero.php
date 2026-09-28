@@ -10,6 +10,7 @@ $hero_image = set_url_scheme( $hero_image ? $hero_image : $hero_default_image );
 $hero_media_style = $hero_image ? 'background-image: url("' . esc_url( $hero_image ) . '");' : '';
 $hero_message = '永远相信美好的事情即将发生';
 ?>
+<div class="home-landscape" style="<?php echo esc_attr( $hero_media_style ); ?>" aria-hidden="true"></div>
 <section class="site-hero">
 	<div
 		class="hero-media"
