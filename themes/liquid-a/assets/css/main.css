@@ -3731,11 +3731,11 @@ html.js-enabled .social-dock.animate-on-scroll.visible {
 
 @media (max-width: 768px) {
     .home-intro {
-        padding-top: 122px;
+        padding-top: 42px;
     }
 
     .home-intro-panel {
-        margin-top: 54px;
+        margin-top: 0;
         padding-bottom: 54px;
     }
 
@@ -3889,7 +3889,16 @@ html.js-enabled .social-dock.animate-on-scroll.visible {
 
     .home-contact {
         margin-top: 0;
-        padding: 42px 0 calc(46px + env(safe-area-inset-bottom));
+        padding: 32px 0 24px;
+    }
+
+    .home.blog .site-content {
+        padding-bottom: 24px;
+    }
+
+    .home.blog .site-footer {
+        margin-top: 0;
+        padding: 20px 0 calc(20px + env(safe-area-inset-bottom));
     }
 }
 
@@ -4333,11 +4342,20 @@ a.about-contact-row:active {
 
 @media (max-width: 768px) {
     .home.blog .hero-media {
+        height: 100vh;
+        height: 100svh;
         background-position: 50% 36%;
     }
 
+    .home.blog .site-hero {
+        height: 100vh;
+        min-height: 100vh;
+        height: 100svh;
+        min-height: 100svh;
+    }
+
     .home.blog .home-content-cover {
-        padding-bottom: 64px;
+        padding-bottom: 32px;
     }
 }
 

@@ -157,17 +157,21 @@
         var hero = document.querySelector('.site-hero');
         var header = document.querySelector('.site-header');
         if (!hero || !header) return;
+        var heroTop = hero.querySelector('.hero-top');
 
-        // 给动态视口与亚像素取整留出容差，避免手机端在临界位置延迟显示顶栏。
+        // 手机首屏导航滚出后立即接上固定顶栏；桌面仍在首屏结束时切换。
         var update = function () {
             var tolerance = Math.max(2, Math.min(6, (window.devicePixelRatio || 1) * 2));
             var heroBottom = hero.getBoundingClientRect().bottom;
-            header.classList.toggle('visible', heroBottom <= tolerance);
+            var heroTopBottom = heroTop ? heroTop.getBoundingClientRect().bottom : heroBottom;
+            var switchAt = window.innerWidth <= 782 ? Math.min(heroTopBottom, heroBottom) : heroBottom;
+            header.classList.toggle('visible', switchAt <= tolerance);
         };
 
         update();
         window.addEventListener('scroll', update, { passive: true });
         window.addEventListener('resize', update, { passive: true });
+        window.addEventListener('pageshow', update);
     }
 
     function initReadingProgress() {
