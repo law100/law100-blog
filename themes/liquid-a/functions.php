@@ -80,6 +80,14 @@ function liquidglass_asset_version( $relative_path ) {
 	return wp_get_theme()->get( 'Version' );
 }
 
+/** Return the configured image shared by the homepage landscape and hero. */
+function liquidglass_hero_image_url() {
+	$default_image = get_theme_file_uri( 'assets/images/hero-default.svg' );
+	$image = get_theme_mod( 'liquidglass_hero_image', $default_image );
+
+	return set_url_scheme( $image ? $image : $default_image );
+}
+
 function liquidglass_scripts() {
 	// 主样式表
 	wp_enqueue_style( 'liquidglass-style', get_stylesheet_uri(), array(), liquidglass_asset_version( 'style.css' ) );

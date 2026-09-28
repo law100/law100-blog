@@ -17,6 +17,10 @@
 <?php wp_body_open(); ?>
 
 <div id="page" class="site">
+	<?php if ( is_front_page() && is_home() ) : ?>
+		<?php $home_landscape = 'background-image: url("' . esc_url( liquidglass_hero_image_url() ) . '");'; ?>
+		<div class="home-landscape" style="<?php echo esc_attr( $home_landscape ); ?>" aria-hidden="true"></div>
+	<?php endif; ?>
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( '跳至内容', 'liquidglass' ); ?></a>
 
 	<header id="masthead" class="site-header">

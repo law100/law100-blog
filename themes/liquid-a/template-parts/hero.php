@@ -4,13 +4,10 @@
  * 顶部：网站名（左）+ 导航菜单（右），浮动于图片上方（同行）
  * 底部：液态玻璃「浏览文章 ↓」按钮
  */
-$hero_default_image = get_theme_file_uri( 'assets/images/hero-default.svg' );
-$hero_image = get_theme_mod( 'liquidglass_hero_image', $hero_default_image );
-$hero_image = set_url_scheme( $hero_image ? $hero_image : $hero_default_image );
+$hero_image = liquidglass_hero_image_url();
 $hero_media_style = $hero_image ? 'background-image: url("' . esc_url( $hero_image ) . '");' : '';
 $hero_message = '永远相信美好的事情即将发生';
 ?>
-<div class="home-landscape" style="<?php echo esc_attr( $hero_media_style ); ?>" aria-hidden="true"></div>
 <section class="site-hero">
 	<div
 		class="hero-media"

@@ -161,6 +161,7 @@ img {
 
 .home.blog .site-content {
     padding-top: 0;
+    padding-bottom: 0;
 }
 
 .home.blog .site-header {
@@ -3898,10 +3899,6 @@ html.js-enabled .social-dock.animate-on-scroll.visible {
         padding: 32px 0 24px;
     }
 
-    .home.blog .site-content {
-        padding-bottom: 24px;
-    }
-
     .home.blog .site-footer {
         margin-top: 0;
         padding: 20px 0 calc(20px + env(safe-area-inset-bottom));
@@ -4308,18 +4305,30 @@ a.about-contact-row:active {
     }
 }
 
-/* ============ 沉浸式固定背景 ============ */
-/* 风景固定在视口后方；Hero 前景正常滚走，首页内容作为不透明幕布向上覆盖。 */
+/* 一张固定风景贯穿首页；正文是不透明幕布，底部重新露出同一张图。 */
+.home.blog #page {
+    isolation: isolate;
+}
+
 .home.blog .home-landscape {
-    position: fixed;
-    inset: 0;
+    position: sticky;
+    top: 0;
+    flex: none;
     z-index: 0;
     width: 100%;
     height: 100vh;
+    margin-bottom: -100vh;
     background-size: cover;
     background-position: 50% 44%;
     background-repeat: no-repeat;
     pointer-events: none;
+}
+
+@supports (height: 100dvh) {
+    .home.blog .home-landscape {
+        height: 100dvh;
+        margin-bottom: -100dvh;
+    }
 }
 
 .home.blog .home-landscape::after {
@@ -4331,24 +4340,16 @@ a.about-contact-row:active {
 
 .home.blog .site-hero {
     z-index: 1;
-    overflow: visible;
+    background: transparent;
 }
 
 .home.blog .hero-media {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 0;
-    background-position: 50% 44%;
-    animation: none !important;
-    transform: none !important;
-    will-change: auto;
+    display: none;
 }
 
 .home.blog .site-hero::before,
 .home.blog .hero-overlay {
-    position: fixed;
+    position: absolute;
     inset: 0;
 }
 
@@ -4367,6 +4368,7 @@ a.about-contact-row:active {
 .home.blog .site-footer {
     position: relative;
     z-index: 4;
+    margin-top: 0;
     border-top-color: rgba(255, 255, 255, 0.22);
 }
 
@@ -4377,24 +4379,7 @@ a.about-contact-row:active {
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
 }
 
-@supports (height: 100lvh) {
-    .home.blog .hero-media {
-        height: 100lvh;
-    }
-}
-
 @media (max-width: 768px) {
-    .home.blog .home-landscape {
-        height: 100svh;
-        background-position: 50% 36%;
-    }
-
-    .home.blog .hero-media {
-        height: 100vh;
-        height: 100svh;
-        background-position: 50% 36%;
-    }
-
     .home.blog .site-hero {
         height: 100vh;
         min-height: 100vh;
@@ -4404,6 +4389,12 @@ a.about-contact-row:active {
 
     .home.blog .home-content-cover {
         padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 782px) {
+    .home.blog .home-landscape {
+        background-position: 50% 36%;
     }
 }
 
