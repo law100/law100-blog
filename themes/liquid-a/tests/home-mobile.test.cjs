@@ -11,10 +11,8 @@ const headerSwitch = source.slice(start, end);
 
 function setup(width) {
     const listeners = {};
-    const state = { heroBottom: 700, heroTopBottom: 100, visible: false };
-    const heroTop = { getBoundingClientRect: () => ({ bottom: state.heroTopBottom }) };
+    const state = { heroBottom: 700, visible: false };
     const hero = {
-        querySelector: () => heroTop,
         getBoundingClientRect: () => ({ bottom: state.heroBottom })
     };
     const header = { classList: { toggle: (_, visible) => { state.visible = visible; } } };
@@ -28,23 +26,22 @@ function setup(width) {
     return { state, listeners, window };
 }
 
-test('mobile fixed header takes over when the Hero navigation scrolls away', () => {
+test('mobile fixed header waits for the entire Hero to leave', () => {
     const { state, listeners } = setup(390);
     assert.equal(state.visible, false);
-    state.heroTopBottom = 0;
-    listeners.scroll();
-    assert.equal(state.visible, true);
-    state.heroTopBottom = 100;
+    state.heroBottom = 100;
     listeners.scroll();
     assert.equal(state.visible, false);
-    state.heroTopBottom = -100;
-    listeners.pageshow();
+    state.heroBottom = 0;
+    listeners.scroll();
     assert.equal(state.visible, true);
+    state.heroBottom = 700;
+    listeners.pageshow();
+    assert.equal(state.visible, false);
 });
 
-test('desktop header still waits until the Hero ends', () => {
+test('desktop and tablet headers follow the same Hero boundary', () => {
     const { state, listeners, window } = setup(1440);
-    state.heroTopBottom = -100;
     listeners.scroll();
     assert.equal(state.visible, false);
     state.heroBottom = 0;
@@ -53,5 +50,5 @@ test('desktop header still waits until the Hero ends', () => {
     window.innerWidth = 782;
     state.heroBottom = 700;
     listeners.resize();
-    assert.equal(state.visible, true);
+    assert.equal(state.visible, false);
 });

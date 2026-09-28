@@ -3731,7 +3731,7 @@ html.js-enabled .social-dock.animate-on-scroll.visible {
 
 @media (max-width: 768px) {
     .home-intro {
-        padding-top: 42px;
+        padding-top: 128px;
     }
 
     .home-intro-panel {
@@ -3839,6 +3839,12 @@ html.js-enabled .social-dock.animate-on-scroll.visible {
     .site-footer {
         padding-top: 24px;
         padding-bottom: calc(24px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 782px) {
+    .home-intro {
+        padding-top: 128px;
     }
 }
 

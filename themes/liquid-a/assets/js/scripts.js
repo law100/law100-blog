@@ -157,15 +157,11 @@
         var hero = document.querySelector('.site-hero');
         var header = document.querySelector('.site-header');
         if (!hero || !header) return;
-        var heroTop = hero.querySelector('.hero-top');
-
-        // 手机首屏导航滚出后立即接上固定顶栏；桌面仍在首屏结束时切换。
+        // 封面完整离开后才由固定顶栏接手，手机和桌面保持同一阅读顺序。
         var update = function () {
             var tolerance = Math.max(2, Math.min(6, (window.devicePixelRatio || 1) * 2));
             var heroBottom = hero.getBoundingClientRect().bottom;
-            var heroTopBottom = heroTop ? heroTop.getBoundingClientRect().bottom : heroBottom;
-            var switchAt = window.innerWidth <= 782 ? Math.min(heroTopBottom, heroBottom) : heroBottom;
-            header.classList.toggle('visible', switchAt <= tolerance);
+            header.classList.toggle('visible', heroBottom <= tolerance);
         };
 
         update();
