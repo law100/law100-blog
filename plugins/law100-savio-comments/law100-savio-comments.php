@@ -83,7 +83,8 @@ function law100_savio_auth_dialog(): void {
 			<header class="savio-auth-header">
 				<div>
 					<span class="savio-auth-kicker">Savio</span>
-					<h3 id="savio-dialog-title" data-savio-dialog-title><?php esc_html_e( '登录后直接参与讨论', 'law100-savio-comments' ); ?></h3>
+					<h3 id="savio-dialog-title" data-savio-dialog-title><?php esc_html_e( '欢迎回来', 'law100-savio-comments' ); ?></h3>
+					<p class="savio-auth-subtitle" data-savio-login-subtitle><?php esc_html_e( '登录后即可参与讨论与分享', 'law100-savio-comments' ); ?></p>
 				</div>
 				<button type="button" class="savio-auth-close" data-savio-close aria-label="<?php esc_attr_e( '关闭', 'law100-savio-comments' ); ?>">×</button>
 			</header>
@@ -96,10 +97,24 @@ function law100_savio_auth_dialog(): void {
 			<p class="savio-auth-error" data-savio-error role="alert" hidden></p>
 
 			<form class="savio-auth-form" data-savio-view="login">
-				<label><?php esc_html_e( '邮箱/用户名', 'law100-savio-comments' ); ?><input name="identifier" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="254" aria-describedby="savio-login-identifier-help" required><small id="savio-login-identifier-help"><?php esc_html_e( '用户名仅支持英文字母和数字；中文昵称请用邮箱登录。', 'law100-savio-comments' ); ?></small></label>
-				<label><?php esc_html_e( '密码', 'law100-savio-comments' ); ?><input name="password" type="password" autocomplete="current-password" minlength="8" required></label>
-				<button class="savio-auth-primary" type="submit"><?php esc_html_e( '登录', 'law100-savio-comments' ); ?></button>
-				<button class="savio-auth-link" type="button" data-savio-show="forgot"><?php esc_html_e( '忘记密码', 'law100-savio-comments' ); ?></button>
+				<div class="savio-login-field">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg>
+					<label class="screen-reader-text" for="savio-login-identifier"><?php esc_html_e( '邮箱/用户名', 'law100-savio-comments' ); ?></label>
+					<input id="savio-login-identifier" name="identifier" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="<?php esc_attr_e( '邮箱/用户名', 'law100-savio-comments' ); ?>" aria-describedby="savio-login-identifier-help" required>
+				</div>
+				<small id="savio-login-identifier-help" class="screen-reader-text"><?php esc_html_e( '用户名仅支持 2 至 24 位英文字母和数字；中文昵称请用邮箱登录。', 'law100-savio-comments' ); ?></small>
+				<div class="savio-login-field">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></svg>
+					<label class="screen-reader-text" for="savio-login-password"><?php esc_html_e( '密码', 'law100-savio-comments' ); ?></label>
+					<input id="savio-login-password" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="<?php esc_attr_e( '密码', 'law100-savio-comments' ); ?>" required>
+					<button class="savio-password-toggle" type="button" data-savio-password-toggle aria-label="<?php esc_attr_e( '显示密码', 'law100-savio-comments' ); ?>" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path data-savio-eye-slash d="M3 21 21 3"/></svg></button>
+				</div>
+				<div class="savio-login-options">
+					<label><input name="rememberMe" type="checkbox" checked><?php esc_html_e( '记住我', 'law100-savio-comments' ); ?></label>
+					<button class="savio-auth-link" type="button" data-savio-show="forgot"><?php esc_html_e( '忘记密码？', 'law100-savio-comments' ); ?></button>
+				</div>
+				<button class="savio-auth-primary" type="submit"><?php esc_html_e( '登 录', 'law100-savio-comments' ); ?><span aria-hidden="true">→</span></button>
+				<div class="savio-login-register"><span><?php esc_html_e( '还没有账号？', 'law100-savio-comments' ); ?></span><button class="savio-auth-link" type="button" data-savio-show="register"><?php esc_html_e( '立即注册', 'law100-savio-comments' ); ?></button></div>
 			</form>
 
 			<form class="savio-auth-form" data-savio-view="register" hidden>

@@ -35,6 +35,15 @@ test('invalid nicknames never reach the login API', async () => {
     assert.equal(calls.length, 0);
   }
 });
+test('remember-me choice reaches only the web login request', async () => {
+  for (const checked of [true, false]) {
+    const { handler, calls } = harness();
+    const fields = new Map([['identifier', 'Alice'], ['password', 'test-only-password']]);
+    if (checked) fields.set('rememberMe', 'on');
+    await handler(fields);
+    assert.equal(calls[0].body.rememberMe, checked);
+  }
+});
 test('new script still accepts the legacy email field in an already-open page', async () => {
   const { handler, calls } = harness();
   await handler(new Map([['email', 'old@example.test'], ['password', 'test-only-password']]));

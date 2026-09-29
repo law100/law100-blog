@@ -294,6 +294,113 @@
     line-height: 1.55;
 }
 
+.savio-auth-dialog[data-savio-view="login"] {
+    width: min(100% - 32px, 578px);
+    border-radius: 20px;
+    background: var(--appearance-paper, #fff);
+}
+
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-shell { padding: 34px 26px 24px; }
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-kicker { display: none; }
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-header h3 {
+    font-size: clamp(36px, 8vw, 50px);
+    font-weight: 750;
+    letter-spacing: -.045em;
+    line-height: 1.15;
+}
+.savio-auth-subtitle {
+    margin: 16px 0 0;
+    color: var(--appearance-muted, #7d879a);
+    font-size: clamp(16px, 3.5vw, 20px);
+    line-height: 1.4;
+}
+.savio-auth-subtitle[hidden] { display: none; }
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-close { margin-top: -4px; }
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-form { gap: 20px; margin-top: 46px; }
+.savio-login-field {
+    display: flex;
+    align-items: center;
+    height: 78px;
+    padding: 0 22px;
+    border: 1px solid var(--appearance-input-rule, #d6deea);
+    border-radius: 15px;
+    color: var(--appearance-muted, #8390a3);
+    background: var(--appearance-input, #fff);
+}
+.savio-login-field:focus-within {
+    border-color: #a6bff1;
+    background: var(--appearance-hover, #f3f7ff);
+    box-shadow: inset 0 0 0 1px rgba(100, 143, 230, .18);
+}
+.savio-login-field > svg { flex: none; width: 27px; height: 27px; }
+.savio-login-field input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    padding: 0 0 0 25px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: clamp(16px, 3.5vw, 20px);
+    outline: 0;
+    box-shadow: none;
+}
+.savio-login-field input:focus,
+.savio-login-field input:focus-visible { border: 0; outline: 0; box-shadow: none; }
+.savio-login-field input::placeholder { color: var(--appearance-muted, #8390a3); }
+.savio-auth-form .screen-reader-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.savio-password-toggle {
+    display: grid;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+    place-items: center;
+    border: 0;
+    color: var(--appearance-muted, #8390a3);
+    background: transparent;
+    cursor: pointer;
+}
+.savio-password-toggle svg { width: 27px; height: 27px; }
+.savio-password-toggle[aria-pressed="true"] [data-savio-eye-slash] { display: none; }
+.savio-password-toggle:focus-visible,
+.savio-login-options input:focus-visible { outline: 2px solid var(--appearance-strong, #111214); outline-offset: 3px; }
+.savio-login-options { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.savio-login-options label { display: flex; align-items: center; gap: 12px; color: var(--appearance-muted, #7d879a); font-size: 17px; font-weight: 400; cursor: pointer; }
+.savio-login-options input { width: 27px; height: 27px; min-height: 0; margin: 0; padding: 0; accent-color: #252b35; }
+.savio-login-options .savio-auth-link,
+.savio-login-register .savio-auth-link { padding: 0; color: #306aff; font-size: 17px; text-decoration: none; }
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    min-height: 86px;
+    margin-top: 23px;
+    border-radius: 15px;
+    background: #252a32;
+    font-size: 22px;
+    letter-spacing: .12em;
+}
+.savio-auth-dialog[data-savio-view="login"] .savio-auth-primary span { font-size: 30px; font-weight: 300; letter-spacing: 0; }
+html[data-color-mode="dark"] .savio-auth-dialog[data-savio-view="login"] .savio-auth-primary { color: #222326; background: #e8e9eb; }
+.savio-login-register { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; color: var(--appearance-muted, #7d879a); font-size: 17px; }
+.savio-login-register::before,
+.savio-login-register::after { content: ''; flex: 1; height: 1px; background: var(--appearance-rule, #d6deea); }
+.savio-login-register::before { margin-right: 12px; }
+.savio-login-register::after { margin-left: 12px; }
+
 .discussion-author-mark--savio {
     display: inline-flex;
     align-items: center;
@@ -334,6 +441,20 @@
     .savio-auth-shell {
         padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
     }
+
+    .savio-auth-dialog[data-savio-view="login"] { width: 100%; border-radius: 18px 18px 0 0; }
+    .savio-auth-dialog[data-savio-view="login"] .savio-auth-shell { padding: 28px 20px calc(20px + env(safe-area-inset-bottom)); }
+    .savio-auth-dialog[data-savio-view="login"] .savio-auth-form { gap: 16px; margin-top: 30px; }
+    .savio-login-field { height: 62px; padding-inline: 16px; }
+    .savio-login-field input { padding-left: 16px; }
+    .savio-login-options label,
+    .savio-login-options .savio-auth-link,
+    .savio-login-register,
+    .savio-login-register .savio-auth-link { font-size: 14px; }
+    .savio-auth-dialog[data-savio-view="login"] .savio-auth-primary { min-height: 64px; margin-top: 12px; font-size: 19px; }
+    .savio-login-register { gap: 8px; margin-top: 8px; white-space: nowrap; }
+    .savio-login-register::before,
+    .savio-login-register::after { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

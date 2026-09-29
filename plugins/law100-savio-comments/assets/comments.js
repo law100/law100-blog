@@ -13,6 +13,7 @@
   const errorBox = dialog.querySelector('[data-savio-error]');
   const tabs = dialog.querySelector('[data-savio-tabs]');
   const views = [...dialog.querySelectorAll('[data-savio-view]')];
+  const loginForm = dialog.querySelector('[data-savio-view="login"]');
   const guestFields = ['.comment-form-author', '.comment-form-email', '.comment-form-cookies-consent']
     .map((selector) => commentForm.querySelector(selector))
     .filter(Boolean);
@@ -30,8 +31,15 @@
 
   const showView = (name) => {
     showError();
+    loginForm.querySelector('[name="password"]').type = 'password';
+    const passwordToggle = dialog.querySelector('[data-savio-password-toggle]');
+    passwordToggle.setAttribute('aria-pressed', 'false');
+    passwordToggle.setAttribute('aria-label', '显示密码');
+    dialog.dataset.savioView = name;
+    dialog.querySelector('[data-savio-dialog-title]').textContent = ({ login: '欢迎回来', register: '创建账号', forgot: '忘记密码', verify: '验证邮箱', reset: '重置密码', profile: '设置昵称' })[name] || 'Savio';
+    dialog.querySelector('[data-savio-login-subtitle]').hidden = name !== 'login';
     views.forEach((view) => { view.hidden = view.dataset.savioView !== name; });
-    const showTabs = name === 'login' || name === 'register';
+    const showTabs = name === 'register';
     tabs.hidden = !showTabs;
     tabs.querySelectorAll('[data-savio-tab]').forEach((tab) => {
       tab.setAttribute('aria-selected', String(tab.dataset.savioTab === name));
@@ -157,11 +165,12 @@
       finishAuthentication(await api('/auth/login', {
         identifier,
         password: form.get('password'),
+        rememberMe: form.has('rememberMe'),
         locale: 'zh-CN',
       }));
     } catch (error) {
       if (error.code === 'email_verification_required' && error.details.challengeId) {
-        challenge = { ...error.details, purpose: 'verify_email' };
+        challenge = { ...error.details, purpose: 'verify_email', rememberMe: form.has('rememberMe') };
         dialog.querySelector('[data-savio-verify-copy]').textContent = `验证码已发送至 ${challenge.maskedEmail || '你的邮箱'}。`;
         showView('verify');
         return;
@@ -187,6 +196,7 @@
     finishAuthentication(await api('/auth/email/verify', {
       challengeId: challenge.challengeId,
       code: form.get('code'),
+      rememberMe: challenge.rememberMe !== false,
       locale: 'zh-CN',
     }));
   });
@@ -212,6 +222,15 @@
   });
 
   dialog.querySelectorAll('[data-savio-tab]').forEach((tab) => tab.addEventListener('click', () => showView(tab.dataset.savioTab)));
+  dialog.querySelector('[data-savio-password-toggle]').addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    const password = loginForm.querySelector('[name="password"]');
+    const visible = password.type === 'password';
+    password.type = visible ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(visible));
+    button.setAttribute('aria-label', visible ? '隐藏密码' : '显示密码');
+    password.focus();
+  });
   dialog.querySelectorAll('[data-savio-show]').forEach((button) => button.addEventListener('click', () => showView(button.dataset.savioShow)));
   dialog.querySelector('[data-savio-close]').addEventListener('click', closeDialog);
   dialog.addEventListener('click', (event) => {
