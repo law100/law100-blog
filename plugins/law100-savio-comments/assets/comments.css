@@ -3,51 +3,11 @@
     grid-column: 1 / -1;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    margin: 2px 0 4px;
-    padding: 16px 0;
-    border-block: 1px solid var(--appearance-rule,#D8DADD);
-    color: var(--appearance-ink,#1D1D1F);
-    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-}
-
-@media (max-width:782px) {
-    .comment-form .savio-comment-account { flex-direction:column; align-items:stretch; gap:8px; }
-    .comment-form .savio-comment-account__actions { justify-content:flex-start; }
-    .comment-form .savio-comment-account__identity small { font-size:13px; }
-}
-
-.savio-comment-account__identity {
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    gap: 12px;
-}
-
-.savio-comment-account__identity img {
-    flex: 0 0 auto;
-    width: 36px;
-    height: 36px;
-}
-
-.savio-comment-account__identity span {
-    display: grid;
-    min-width: 0;
-    gap: 2px;
-}
-
-.savio-comment-account__identity strong {
-    overflow: hidden;
-    font-size: 0.9rem;
-    font-weight: 620;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.savio-comment-account__identity small {
+    gap: 10px;
     color: var(--appearance-muted,#686B70);
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     line-height: 1.5;
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
 }
 
 .savio-comment-account__actions {
@@ -86,6 +46,8 @@
 }
 
 .savio-text-action:focus-visible,
+.savio-guest-dialog button:focus-visible,
+.savio-guest-dialog input:focus-visible,
 .savio-auth-link:focus-visible,
 .savio-auth-close:focus-visible,
 .savio-auth-primary:focus-visible,
@@ -93,6 +55,35 @@
     outline: 2px solid var(--appearance-strong,#111214);
     outline-offset: 3px;
 }
+
+.savio-guest-dialog {
+    width: min(100% - 32px, 420px);
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--appearance-rule,#D8DADD);
+    border-radius: 12px;
+    color: var(--appearance-ink,#1D1D1F);
+    background: var(--appearance-paper,#FCFCFD);
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+.savio-guest-dialog::backdrop { background: rgba(16,17,18,.46); }
+.savio-guest-shell { display: grid; gap: 16px; padding: 24px; }
+.savio-guest-shell header { display: flex; align-items: center; justify-content: space-between; }
+.savio-guest-shell h3 { margin: 0; font-size: 1.2rem; }
+.savio-guest-shell header button { width: 44px; height: 44px; border: 0; background: transparent; color: inherit; font-size: 1.5rem; cursor: pointer; }
+.savio-guest-fields { display: grid; gap: 14px; }
+.savio-guest-fields p { margin: 0; }
+.savio-guest-fields label { display: block; margin-bottom: 6px; font-size: .86rem; }
+.savio-guest-fields input[type="text"],
+.savio-guest-fields input[type="email"] { box-sizing: border-box; width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid var(--appearance-input-rule,#C9CBD0); border-radius: 10px; background: var(--appearance-input,#fff); color: inherit; font: inherit; }
+.savio-guest-fields .comment-form-cookies-consent { display: flex; align-items: center; min-height: 44px; }
+.savio-guest-fields .comment-form-cookies-consent input { width: 20px; height: 20px; margin: 0 10px 0 0; accent-color: var(--appearance-strong,#252b35); }
+.savio-guest-fields .comment-form-cookies-consent label { margin: 0; }
+.savio-guest-shell > p { margin: 0; color: var(--appearance-muted,#686B70); font-size: .82rem; line-height: 1.6; }
+.savio-guest-submit { min-height: 48px; border: 0; border-radius: 10px; background: var(--appearance-strong,#252b35); color: var(--appearance-button-text,#fff); font-family: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
+.savio-guest-login { min-height: 44px; border: 0; background: transparent; color: var(--appearance-ink,#1D1D1F); font: inherit; font-size: .82rem; cursor: pointer; }
 
 .savio-auth-dialog {
     width: min(100% - 32px, 440px);
@@ -346,16 +337,15 @@ html[data-color-mode="dark"] .savio-auth-primary { color: #222326; background: #
 @media (max-width: 640px) {
     .savio-comment-account {
         align-items: flex-start;
-        gap: 10px;
-    }
-
-    .savio-comment-account__identity small {
-        max-width: 20em;
+        flex-wrap: wrap;
     }
 
     .savio-comment-account__actions {
         margin-right: -8px;
     }
+
+    .savio-guest-dialog { width: 100%; max-width: none; max-height: 88dvh; margin: auto 0 0; border-width: 1px 0 0; border-radius: 16px 16px 0 0; }
+    .savio-guest-shell { padding: 20px 20px calc(20px + env(safe-area-inset-bottom)); }
 
     .savio-auth-dialog {
         width: 100%;

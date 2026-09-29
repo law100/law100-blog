@@ -92,3 +92,45 @@ test('dialog resizing during an internal click does not dismiss it as backdrop',
   click({ target: dialog, clientX: 300, clientY: 600 });
   assert.equal(closed, 1);
 });
+
+test('guest writes first, then confirms identity through the existing WordPress form', async () => {
+  const code = script.slice(script.indexOf("  commentForm.addEventListener('submit'"), script.indexOf('\n  refreshSession();', script.indexOf("  commentForm.addEventListener('submit'")));
+  let submit;
+  let posted = 0;
+  let focused = 0;
+  const guestSubmit = {};
+  const guestDialog = { open: false, showModal() { this.open = true; } };
+  const context = {
+    bypassSubmitCheck: false,
+    comment: { value: 'A draft' },
+    draftKey: 'draft',
+    sessionStorage: { setItem: (_, text) => assert.equal(text, 'A draft') },
+    intent: { value: '0' },
+    session: { authenticated: false },
+    guestDialog,
+    guestSubmit,
+    guestFields: [{ querySelector: () => ({ focus: () => { focused++; } }) }],
+    setGuestFields: (hidden) => assert.equal(hidden, false),
+    commentForm: {
+      addEventListener: (_, callback) => { submit = callback; },
+      requestSubmit: (button) => { assert.equal(button, guestSubmit); posted++; submit({ submitter: button, preventDefault() {} }); },
+    },
+  };
+  runInNewContext(code, context);
+  await submit({ submitter: {}, preventDefault() {} });
+  assert.equal(guestDialog.open, true);
+  assert.equal(focused, 1);
+  assert.equal(posted, 0);
+  await submit({ submitter: guestSubmit, preventDefault() {} });
+  assert.equal(posted, 1);
+  assert.equal(context.bypassSubmitCheck, true);
+  assert.match(template, /form="commentform"[^>]*data-savio-guest-submit/);
+  let view;
+  context.bypassSubmitCheck = false;
+  guestDialog.open = false;
+  context.session = { authenticated: true, emailVerified: false };
+  context.openDialog = (name) => { view = name; };
+  await submit({ submitter: {}, preventDefault() {} });
+  assert.equal(view, 'login');
+  assert.equal(guestDialog.open, false);
+});

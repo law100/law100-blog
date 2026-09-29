@@ -79,8 +79,8 @@ if ( get_option( 'show_comments_cookies_opt_in' ) ) {
 		comment_form(
 			array(
 				'fields'               => $fields,
-				'comment_field'         => '<p class="comment-form-comment"><label for="comment">' . esc_html__( '评论内容', 'liquidglass' ) . ' <span class="required" aria-hidden="true">*</span></label><textarea id="comment" name="comment" maxlength="65525" required aria-required="true"></textarea></p>',
-				'comment_notes_before'  => '<p class="comment-notes">' . esc_html__( '邮箱不会公开，首次评论可能需要审核。', 'liquidglass' ) . '</p>',
+				'comment_field'         => '<p class="comment-form-comment"><label class="screen-reader-text" for="comment">' . esc_html__( '评论内容', 'liquidglass' ) . '</label><textarea id="comment" name="comment" maxlength="65525" required aria-required="true" placeholder="' . esc_attr__( '写下你的想法……', 'liquidglass' ) . '"></textarea></p>',
+				'comment_notes_before'  => '',
 				'comment_notes_after'   => '',
 				'title_reply'           => esc_html__( '留下回应', 'liquidglass' ),
 				'title_reply_to'        => esc_html__( '正在回复给 %s', 'liquidglass' ),

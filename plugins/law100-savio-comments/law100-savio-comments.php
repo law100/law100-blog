@@ -56,22 +56,34 @@ function law100_savio_comment_account(): void {
 	}
 	?>
 	<div class="savio-comment-account" data-savio-account>
-		<div class="savio-comment-account__identity">
-			<img src="<?php echo esc_url( plugins_url( 'assets/savio-mark.svg', __FILE__ ) ); ?>" alt="" width="36" height="36" aria-hidden="true">
-			<span>
-				<strong data-savio-account-title><?php esc_html_e( '游客留言', 'law100-savio-comments' ); ?></strong>
-				<small data-savio-account-detail><?php esc_html_e( '登录 Savio 后，评论无需等待审核。', 'law100-savio-comments' ); ?></small>
-			</span>
-		</div>
+		<span data-savio-account-title><?php esc_html_e( '游客首次留言可能需要审核 · 登录后可直接发布', 'law100-savio-comments' ); ?></span>
 		<div class="savio-comment-account__actions">
-			<button type="button" class="savio-text-action" data-savio-open><?php esc_html_e( '使用 Savio 登录', 'law100-savio-comments' ); ?></button>
+			<button type="button" class="savio-text-action" data-savio-open><?php esc_html_e( '登录', 'law100-savio-comments' ); ?></button>
 			<button type="button" class="savio-text-action" data-savio-logout hidden><?php esc_html_e( '退出', 'law100-savio-comments' ); ?></button>
 		</div>
 	</div>
 	<input type="hidden" name="law100_savio_intent" value="0" data-savio-intent>
 	<?php
 }
-add_action( 'comment_form_top', 'law100_savio_comment_account' );
+add_action( 'comment_form_after_fields', 'law100_savio_comment_account' );
+
+function law100_savio_guest_dialog(): void {
+	if ( ! law100_savio_is_configured() || is_user_logged_in() ) {
+		return;
+	}
+	?>
+	<dialog class="savio-guest-dialog" data-savio-guest-dialog aria-labelledby="savio-guest-title">
+		<div class="savio-guest-shell">
+			<header><h3 id="savio-guest-title"><?php esc_html_e( '以游客身份留言', 'law100-savio-comments' ); ?></h3><button type="button" data-savio-guest-close aria-label="<?php esc_attr_e( '关闭', 'law100-savio-comments' ); ?>">×</button></header>
+			<div class="savio-guest-fields" data-savio-guest-fields></div>
+			<p><?php esc_html_e( '邮箱不会公开。首次评论可能需要审核。', 'law100-savio-comments' ); ?></p>
+			<button type="submit" form="commentform" class="savio-guest-submit" data-savio-guest-submit><?php esc_html_e( '提交评论', 'law100-savio-comments' ); ?></button>
+			<button type="button" class="savio-guest-login" data-savio-guest-login><?php esc_html_e( '已有账号？登录后可直接发布', 'law100-savio-comments' ); ?></button>
+		</div>
+	</dialog>
+	<?php
+}
+add_action( 'comment_form_after', 'law100_savio_guest_dialog', 9 );
 
 function law100_savio_auth_dialog(): void {
 	if ( ! law100_savio_is_configured() || is_user_logged_in() ) {
@@ -82,8 +94,8 @@ function law100_savio_auth_dialog(): void {
 		<div class="savio-auth-shell">
 			<header class="savio-auth-header">
 				<div>
-					<h3 id="savio-dialog-title" data-savio-dialog-title><?php esc_html_e( '欢迎回来', 'law100-savio-comments' ); ?></h3>
-					<p class="savio-auth-subtitle" data-savio-subtitle><?php esc_html_e( '登录后即可参与讨论与分享', 'law100-savio-comments' ); ?></p>
+					<h3 id="savio-dialog-title" data-savio-dialog-title><?php esc_html_e( '登录', 'law100-savio-comments' ); ?></h3>
+					<p class="savio-auth-subtitle" data-savio-subtitle><?php esc_html_e( '登录后评论无需等待审核', 'law100-savio-comments' ); ?></p>
 				</div>
 				<button type="button" class="savio-auth-close" data-savio-close aria-label="<?php esc_attr_e( '关闭', 'law100-savio-comments' ); ?>">×</button>
 			</header>
@@ -108,7 +120,7 @@ function law100_savio_auth_dialog(): void {
 					<button class="savio-auth-link" type="button" data-savio-show="forgot"><?php esc_html_e( '忘记密码？', 'law100-savio-comments' ); ?></button>
 				</div>
 				<button class="savio-auth-primary" type="submit"><?php esc_html_e( '登 录', 'law100-savio-comments' ); ?><span aria-hidden="true">→</span></button>
-				<div class="savio-auth-footer"><span><?php esc_html_e( '还没有账号？', 'law100-savio-comments' ); ?></span><button class="savio-auth-link" type="button" data-savio-show="register"><?php esc_html_e( '立即注册', 'law100-savio-comments' ); ?></button></div>
+				<div class="savio-auth-footer"><span><?php esc_html_e( '还没有账号？', 'law100-savio-comments' ); ?></span><button class="savio-auth-link" type="button" data-savio-show="register"><?php esc_html_e( '创建账号', 'law100-savio-comments' ); ?></button></div>
 			</form>
 
 			<form class="savio-auth-form" data-savio-view="register" hidden>

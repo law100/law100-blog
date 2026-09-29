@@ -2,11 +2,11 @@
   const config = window.law100SavioComments;
   const account = document.querySelector('[data-savio-account]');
   const dialog = document.querySelector('[data-savio-dialog]');
+  const guestDialog = document.querySelector('[data-savio-guest-dialog]');
   const commentForm = document.querySelector('#commentform');
-  if (!config || !account || !dialog || !commentForm) return;
+  if (!config || !account || !dialog || !guestDialog || !commentForm) return;
 
   const title = account.querySelector('[data-savio-account-title]');
-  const detail = account.querySelector('[data-savio-account-detail]');
   const openButton = account.querySelector('[data-savio-open]');
   const logoutButton = account.querySelector('[data-savio-logout]');
   const intent = commentForm.querySelector('[data-savio-intent]');
@@ -17,11 +17,16 @@
     .map((selector) => commentForm.querySelector(selector))
     .filter(Boolean);
   const comment = commentForm.querySelector('#comment');
-  const notes = commentForm.querySelector('.comment-notes');
+  const guestSubmit = guestDialog.querySelector('[data-savio-guest-submit]');
   const draftKey = `law100-comment-draft:${config.postId}`;
   let session = { authenticated: false };
   let challenge = null;
   let bypassSubmitCheck = false;
+
+  guestFields.forEach((field) => {
+    field.querySelectorAll('input').forEach((input) => input.setAttribute('form', commentForm.id));
+    guestDialog.querySelector('[data-savio-guest-fields]').append(field);
+  });
 
   const showError = (message = '') => {
     errorBox.textContent = message;
@@ -35,8 +40,8 @@
     passwordToggle.setAttribute('aria-pressed', 'false');
     passwordToggle.setAttribute('aria-label', '显示密码');
     dialog.dataset.savioView = name;
-    dialog.querySelector('[data-savio-dialog-title]').textContent = ({ login: '欢迎回来', register: '创建账号', forgot: '忘记密码', verify: '验证邮箱', reset: '重置密码', profile: '设置昵称' })[name] || 'Savio';
-    dialog.querySelector('[data-savio-subtitle]').textContent = ({ login: '登录后即可参与讨论与分享', register: '注册并验证邮箱后，即可参与讨论', forgot: '输入注册邮箱，我们会发送验证码', verify: '输入邮件中的 6 位验证码', reset: '输入验证码并设置新密码', profile: '设置公开昵称后即可评论' })[name] || '';
+    dialog.querySelector('[data-savio-dialog-title]').textContent = ({ login: '登录', register: '创建账号', forgot: '忘记密码', verify: '验证邮箱', reset: '重置密码', profile: '设置昵称' })[name] || 'Savio';
+    dialog.querySelector('[data-savio-subtitle]').textContent = ({ login: '登录后评论无需等待审核', register: '注册并验证邮箱后，即可参与讨论', forgot: '输入注册邮箱，我们会发送验证码', verify: '输入邮件中的 6 位验证码', reset: '输入验证码并设置新密码', profile: '设置公开昵称后即可评论' })[name] || '';
     views.forEach((view) => { view.hidden = view.dataset.savioView !== name; });
     const first = dialog.querySelector(`[data-savio-view="${name}"] input`);
     window.setTimeout(() => first?.focus(), 30);
@@ -66,7 +71,7 @@
       field.hidden = hidden;
       field.querySelectorAll('input').forEach((input) => {
         if (!input.dataset.savioRequired) input.dataset.savioRequired = input.required ? '1' : '0';
-        input.disabled = hidden;
+        input.disabled = hidden || !guestDialog.open;
         input.required = !hidden && input.dataset.savioRequired === '1';
       });
     });
@@ -74,13 +79,12 @@
 
   const renderSession = () => {
     const ready = session.authenticated && session.emailVerified && session.profileComplete;
-    if (notes) notes.textContent = ready ? `以${session.displayName}留言，评论将直接发布。` : '邮箱不会公开，首次评论可能需要审核。';
+    if (ready && guestDialog.open) guestDialog.close();
     intent.value = ready ? '1' : '0';
     setGuestFields(ready);
     logoutButton.hidden = !session.authenticated;
     if (ready) {
-      title.textContent = session.displayName;
-      detail.textContent = 'Savio 已验证';
+      title.textContent = `${session.displayName} · 已验证`;
       openButton.hidden = true;
       return;
     }
@@ -88,18 +92,15 @@
     if (session.authenticated) {
       if (!session.emailVerified) {
         title.textContent = '邮箱尚未验证';
-        detail.textContent = '请先完成邮箱验证，再以 Savio 身份留言。';
         openButton.textContent = '重新登录并验证';
         return;
       }
       title.textContent = '还差一个公开昵称';
-      detail.textContent = '设置昵称后即可直接参与讨论。';
       openButton.textContent = '设置昵称';
       return;
     }
-    title.textContent = '游客留言';
-    detail.textContent = '登录 Savio 后，评论无需等待审核。';
-    openButton.textContent = '使用 Savio 登录';
+    title.textContent = '游客首次留言可能需要审核 · 登录后可直接发布';
+    openButton.textContent = '登录';
   };
 
   const refreshSession = async () => {
@@ -226,6 +227,17 @@
   });
   dialog.querySelectorAll('[data-savio-show]').forEach((button) => button.addEventListener('click', () => showView(button.dataset.savioShow)));
   dialog.querySelector('[data-savio-close]').addEventListener('click', closeDialog);
+  guestDialog.querySelector('[data-savio-guest-close]').addEventListener('click', () => guestDialog.close());
+  guestDialog.querySelector('[data-savio-guest-login]').addEventListener('click', () => {
+    guestDialog.close();
+    openDialog();
+  });
+  guestDialog.addEventListener('close', () => setGuestFields(false));
+  guestDialog.addEventListener('click', (event) => {
+    if (event.target !== guestDialog) return;
+    const rect = guestDialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) guestDialog.close();
+  });
   dialog.addEventListener('click', (event) => {
     if (event.target !== dialog) return;
     const rect = dialog.getBoundingClientRect();
@@ -271,9 +283,24 @@
   }
 
   commentForm.addEventListener('submit', async (event) => {
-    if (bypassSubmitCheck || intent.value !== '1') return;
+    if (bypassSubmitCheck) return;
     event.preventDefault();
     if (comment) sessionStorage.setItem(draftKey, comment.value);
+    if (guestDialog.open && intent.value === '0') {
+      bypassSubmitCheck = true;
+      commentForm.requestSubmit(guestSubmit);
+      return;
+    }
+    if (intent.value !== '1') {
+      if (session.authenticated) {
+        openDialog(session.emailVerified ? 'profile' : 'login');
+        return;
+      }
+      guestDialog.showModal();
+      setGuestFields(false);
+      guestFields[0]?.querySelector('input')?.focus();
+      return;
+    }
     const checked = await refreshSession();
     if (!checked.authenticated || !checked.profileComplete) {
       openDialog(checked.authenticated ? 'profile' : 'login');
