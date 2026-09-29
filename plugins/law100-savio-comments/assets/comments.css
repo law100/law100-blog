@@ -88,7 +88,6 @@
 .savio-text-action:focus-visible,
 .savio-auth-link:focus-visible,
 .savio-auth-close:focus-visible,
-.savio-auth-tabs button:focus-visible,
 .savio-auth-primary:focus-visible,
 .savio-auth-form input:focus-visible {
     outline: 2px solid var(--appearance-strong,#111214);
@@ -105,7 +104,7 @@
     color: var(--appearance-ink,#1D1D1F);
     background: var(--appearance-paper,#FCFCFD);
     box-shadow: none;
-    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    font-family: var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
 .savio-auth-dialog::backdrop {
@@ -129,21 +128,11 @@
     gap: 20px;
 }
 
-.savio-auth-kicker {
-    display: block;
-    margin-bottom: 7px;
-    color: var(--appearance-muted,#686B70);
-    font-size: 0.7rem;
-    font-weight: 650;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-}
-
 .savio-auth-header h3 {
     margin: 0;
-    font-size: clamp(1.25rem, 3vw, 1.55rem);
-    font-weight: 620;
-    letter-spacing: -0.025em;
+    font-size: clamp(30px, 8vw, 36px);
+    font-weight: 650;
+    line-height: 1.25;
 }
 
 .savio-auth-close {
@@ -151,7 +140,7 @@
     flex: 0 0 auto;
     width: 44px;
     height: 44px;
-    margin: -9px -9px 0 0;
+    margin: -4px -9px 0 0;
     padding: 0;
     place-items: center;
     border: 0;
@@ -167,45 +156,13 @@
     background: var(--appearance-hover,#EEF0F2);
 }
 
-.savio-auth-tabs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 24px 0 20px;
-    padding: 3px;
-    border: 1px solid var(--appearance-rule,#D8DADD);
-    border-radius: 8px;
-    background: var(--appearance-hover,#F0F1F3);
-}
-
-.savio-auth-tabs button {
-    min-height: 40px;
-    border: 0;
-    border-radius: 5px;
-    color: var(--appearance-muted,#686B70);
-    background: transparent;
-    font: 580 0.86rem/1 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-}
-
-.savio-auth-tabs button[aria-selected="true"] {
-    color: var(--appearance-ink,#1D1D1F);
-    background: var(--appearance-input,#FFFFFF);
-    box-shadow: inset 0 0 0 1px rgba(29, 29, 31, 0.08);
-}
-
-.savio-auth-tabs button:active {
-    background: var(--appearance-hover,#E3E5E8);
-}
-
 .savio-auth-form {
     display: grid;
-    gap: 16px;
+    gap: 14px;
+    margin-top: 28px;
 }
 
 .savio-auth-form[hidden],
-.savio-auth-tabs[hidden],
 .savio-auth-error[hidden] {
     display: none;
 }
@@ -214,15 +171,6 @@
   display: none !important;
 }
 
-.savio-auth-form label {
-    display: grid;
-    gap: 7px;
-    color: var(--appearance-ink,#1D1D1F);
-    font-size: 0.82rem;
-    font-weight: 580;
-}
-
-.savio-auth-form label small,
 .savio-auth-copy {
     margin: 0;
     color: var(--appearance-muted,#686B70);
@@ -239,7 +187,7 @@
     border-radius: 6px;
     color: var(--appearance-ink,#1D1D1F);
     background: var(--appearance-input,#FFFFFF);
-    font: 400 1rem/1.3 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    font: 400 1rem/1.3 var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
 
 .savio-auth-form input:focus {
@@ -253,14 +201,18 @@
 }
 
 .savio-auth-primary {
-    min-height: 48px;
-    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    min-height: 62px;
+    margin-top: 15px;
     padding: 0 18px;
     border: 1px solid var(--appearance-strong,#111214);
-    border-radius: 6px;
+    border-radius: 9px;
     color: var(--appearance-button-text,#FFFFFF);
-    background: var(--appearance-strong,#111214);
-    font: 620 0.9rem/1 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    background: #252a32;
+    font: 620 17px/1 var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -282,7 +234,10 @@
 
 .savio-auth-link {
     justify-self: center;
+    font: 500 0.8rem/1.5 var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
 }
+
+html[data-color-mode="dark"] .savio-auth-primary { color: #222326; background: #e8e9eb; }
 
 .savio-auth-error {
     margin: 18px 0 0;
@@ -294,21 +249,6 @@
     line-height: 1.55;
 }
 
-.savio-auth-dialog[data-savio-view="login"] {
-    width: min(100% - 32px, 440px);
-    border-radius: 10px;
-    background: var(--appearance-paper, #fff);
-    font-family: var(--font-main, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
-}
-
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-shell { padding: 26px; }
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-kicker { display: none; }
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-header h3 {
-    font-size: clamp(30px, 8vw, 36px);
-    font-weight: 650;
-    letter-spacing: normal;
-    line-height: 1.25;
-}
 .savio-auth-subtitle {
     margin: 10px 0 0;
     color: var(--appearance-muted, #7d879a);
@@ -316,8 +256,6 @@
     line-height: 1.6;
 }
 .savio-auth-subtitle[hidden] { display: none; }
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-close { margin-top: -4px; }
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-form { gap: 14px; margin-top: 28px; }
 .savio-login-field {
     display: flex;
     align-items: center;
@@ -382,27 +320,14 @@
 .savio-login-options label { display: flex; align-items: center; gap: 9px; min-height: 44px; color: var(--appearance-muted, #7d879a); font-size: 14px; font-weight: 400; line-height: 1.5; cursor: pointer; }
 .savio-login-options input { width: 21px; height: 21px; min-height: 0; margin: 0; padding: 0; accent-color: #252b35; }
 .savio-login-options .savio-auth-link,
-.savio-login-register .savio-auth-link { padding: 0; color: #306aff; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.5; text-decoration: none; }
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-primary {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    min-height: 62px;
-    margin-top: 15px;
-    border-radius: 9px;
-    background: #252a32;
-    font-family: inherit;
-    font-size: 17px;
-    letter-spacing: .12em;
-}
-.savio-auth-dialog[data-savio-view="login"] .savio-auth-primary span { font-size: 23px; font-weight: 300; letter-spacing: 0; }
-html[data-color-mode="dark"] .savio-auth-dialog[data-savio-view="login"] .savio-auth-primary { color: #222326; background: #e8e9eb; }
-.savio-login-register { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; color: var(--appearance-muted, #7d879a); font-size: 14px; line-height: 1.5; }
-.savio-login-register::before,
-.savio-login-register::after { content: ''; flex: 1; height: 1px; background: var(--appearance-rule, #d6deea); }
-.savio-login-register::before { margin-right: 6px; }
-.savio-login-register::after { margin-left: 6px; }
+.savio-auth-footer .savio-auth-link { padding: 0; color: #306aff; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1.5; text-decoration: none; }
+.savio-auth-form[data-savio-view="login"] .savio-auth-primary { letter-spacing: .12em; }
+.savio-auth-form[data-savio-view="login"] .savio-auth-primary span { font-size: 23px; font-weight: 300; letter-spacing: 0; }
+.savio-auth-footer { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; color: var(--appearance-muted, #7d879a); font-size: 14px; line-height: 1.5; }
+.savio-auth-footer::before,
+.savio-auth-footer::after { content: ''; flex: 1; height: 1px; background: var(--appearance-rule, #d6deea); }
+.savio-auth-footer::before { margin-right: 6px; }
+.savio-auth-footer::after { margin-left: 6px; }
 
 .discussion-author-mark--savio {
     display: inline-flex;
@@ -445,14 +370,12 @@ html[data-color-mode="dark"] .savio-auth-dialog[data-savio-view="login"] .savio-
         padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
     }
 
-    .savio-auth-dialog[data-savio-view="login"] { width: 100%; border-radius: 16px 16px 0 0; }
-    .savio-auth-dialog[data-savio-view="login"] .savio-auth-shell { padding: 22px 20px calc(22px + env(safe-area-inset-bottom)); }
-    .savio-auth-dialog[data-savio-view="login"] .savio-auth-form { margin-top: 24px; }
+    .savio-auth-form { margin-top: 24px; }
     .savio-login-field { height: 56px; }
-    .savio-auth-dialog[data-savio-view="login"] .savio-auth-primary { min-height: 58px; margin-top: 10px; }
-    .savio-login-register { gap: 8px; margin-top: 8px; white-space: nowrap; }
-    .savio-login-register::before,
-    .savio-login-register::after { margin: 0; }
+    .savio-auth-primary { min-height: 58px; margin-top: 10px; }
+    .savio-auth-footer { gap: 8px; margin-top: 8px; white-space: nowrap; }
+    .savio-auth-footer::before,
+    .savio-auth-footer::after { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

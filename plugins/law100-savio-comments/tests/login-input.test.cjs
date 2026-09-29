@@ -59,6 +59,21 @@ test('only login changes field semantics; register and reset remain email inputs
   }
 });
 
+test('registration and recovery use the shared auth layout without the old login tabs', () => {
+  assert.doesNotMatch(template, /data-savio-tabs|data-savio-tab=/);
+  assert.match(template, /data-savio-subtitle/);
+  assert.match(script, /\[data-savio-subtitle\]/);
+  for (const view of ['register', 'verify', 'forgot', 'reset', 'profile']) {
+    const form = template.match(new RegExp(`data-savio-view="${view}"[^>]*>([\\s\\S]*?)<\\/form>`))[1];
+    assert.match(form, /class="savio-login-field"/);
+    assert.match(form, /class="savio-auth-primary"/);
+  }
+  for (const view of ['register', 'forgot', 'reset']) {
+    const form = template.match(new RegExp(`data-savio-view="${view}"[^>]*>([\\s\\S]*?)<\\/form>`))[1];
+    assert.match(form, /data-savio-show="login"/);
+  }
+});
+
 test('dialog resizing during an internal click does not dismiss it as backdrop', () => {
   const listener = script.slice(script.indexOf("  dialog.addEventListener('click'"), script.indexOf("  document.addEventListener('keydown'"));
   let click;

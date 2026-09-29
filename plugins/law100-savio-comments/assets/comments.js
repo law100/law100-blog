@@ -11,7 +11,6 @@
   const logoutButton = account.querySelector('[data-savio-logout]');
   const intent = commentForm.querySelector('[data-savio-intent]');
   const errorBox = dialog.querySelector('[data-savio-error]');
-  const tabs = dialog.querySelector('[data-savio-tabs]');
   const views = [...dialog.querySelectorAll('[data-savio-view]')];
   const loginForm = dialog.querySelector('[data-savio-view="login"]');
   const guestFields = ['.comment-form-author', '.comment-form-email', '.comment-form-cookies-consent']
@@ -37,13 +36,8 @@
     passwordToggle.setAttribute('aria-label', '显示密码');
     dialog.dataset.savioView = name;
     dialog.querySelector('[data-savio-dialog-title]').textContent = ({ login: '欢迎回来', register: '创建账号', forgot: '忘记密码', verify: '验证邮箱', reset: '重置密码', profile: '设置昵称' })[name] || 'Savio';
-    dialog.querySelector('[data-savio-login-subtitle]').hidden = name !== 'login';
+    dialog.querySelector('[data-savio-subtitle]').textContent = ({ login: '登录后即可参与讨论与分享', register: '注册并验证邮箱后，即可参与讨论', forgot: '输入注册邮箱，我们会发送验证码', verify: '输入邮件中的 6 位验证码', reset: '输入验证码并设置新密码', profile: '设置公开昵称后即可评论' })[name] || '';
     views.forEach((view) => { view.hidden = view.dataset.savioView !== name; });
-    const showTabs = name === 'register';
-    tabs.hidden = !showTabs;
-    tabs.querySelectorAll('[data-savio-tab]').forEach((tab) => {
-      tab.setAttribute('aria-selected', String(tab.dataset.savioTab === name));
-    });
     const first = dialog.querySelector(`[data-savio-view="${name}"] input`);
     window.setTimeout(() => first?.focus(), 30);
   };
@@ -221,7 +215,6 @@
     finishAuthentication(await api('/profile', { displayName: form.get('displayName') }, session.csrfToken));
   });
 
-  dialog.querySelectorAll('[data-savio-tab]').forEach((tab) => tab.addEventListener('click', () => showView(tab.dataset.savioTab)));
   dialog.querySelector('[data-savio-password-toggle]').addEventListener('click', (event) => {
     const button = event.currentTarget;
     const password = loginForm.querySelector('[name="password"]');
