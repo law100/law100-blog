@@ -26,7 +26,7 @@
 
 1. 准备自己的 WordPress、管理员账户和 HTTPS，不要把生产凭据放进仓库。
 2. 将 `themes/liquid-a` 复制到 `wp-content/themes/liquid-a`，在“外观”中启用。
-3. 在“外观 → 自定义”设置背景、简介、社交链接和邮箱。开源版用山形 SVG 替代线上摄影背景，用系统字体替代第三方手写字体。
+3. 在“外观 → 自定义”设置背景、简介、社交链接和邮箱。开源版用山形 SVG 替代线上摄影背景，默认使用系统字体；站点已有 `assets/fonts/pingfang-shangshangqian.ttf` 时，首页题字会加载独立的 `hero-font.css`，保留站点自备的原始字体。字体文件不随仓库分发。
 4. 构建 Studio：
 
    ```bash

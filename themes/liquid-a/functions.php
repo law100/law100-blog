@@ -93,6 +93,9 @@ function liquidglass_scripts() {
 	wp_enqueue_style( 'liquidglass-style', get_stylesheet_uri(), array(), liquidglass_asset_version( 'style.css' ) );
 	// 自定义主样式（毛玻璃效果等）
 	wp_enqueue_style( 'liquidglass-main', LIQUIDGLASS_THEME_URI . '/assets/css/main.css', array(), liquidglass_asset_version( 'assets/css/main.css' ) );
+	if ( is_front_page() && is_home() && file_exists( LIQUIDGLASS_THEME_DIR . '/assets/fonts/pingfang-shangshangqian.ttf' ) ) {
+		wp_enqueue_style( 'law100-hero-font', LIQUIDGLASS_THEME_URI . '/assets/css/hero-font.css', array( 'liquidglass-main' ), liquidglass_asset_version( 'assets/css/hero-font.css' ) );
+	}
 
 	// 脚本文件（在页面底部加载）
 	wp_enqueue_script( 'liquidglass-scripts', LIQUIDGLASS_THEME_URI . '/assets/js/scripts.js', array(), liquidglass_asset_version( 'assets/js/scripts.js' ), true );

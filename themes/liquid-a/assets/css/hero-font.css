@@ -1,0 +1,12 @@
+/* The site owner's original font is optional and is not redistributed. */
+@font-face {
+    font-family: "Law100 ShangShangQian";
+    src: url("../fonts/pingfang-shangshangqian.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+.site-hero .hero-message {
+    font-family: "Law100 ShangShangQian", "STKaiti", "KaiTi", cursive;
+}
