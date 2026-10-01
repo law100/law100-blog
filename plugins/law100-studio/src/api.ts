@@ -28,6 +28,10 @@ export class ApiError extends Error {
 }
 
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
+  return (await apiResponse<T>(path, init)).data;
+}
+
+export async function apiResponse<T>(path: string, init: RequestInit = {}): Promise<{ data: T; total: number; totalPages: number }> {
   const headers = new Headers(init.headers);
   headers.set('X-WP-Nonce', config.nonce);
   if (init.body && !(init.body instanceof FormData) && !headers.has('Content-Type')) {
@@ -46,7 +50,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
     const message = (data as { message?: string } | null)?.message || '请求没有完成。';
     throw new ApiError(message, response.status, data);
   }
-  return data as T;
+  return { data: data as T, total: Number(response.headers.get('X-WP-Total') || 0), totalPages: Number(response.headers.get('X-WP-TotalPages') || 0) };
 }
 
 export function json(body: unknown): RequestInit {
