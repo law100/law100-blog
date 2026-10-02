@@ -300,6 +300,30 @@ img {
 }
 
 /* ============ 搜索（hero 和 header 共享结构） ============ */
+@media (min-width: 783px) and (hover: hover) and (pointer: fine) {
+    .hero-top .hero-nav, .header-inner .main-navigation { margin-left: auto; }
+    .hero-top .appearance-control, .header-inner .appearance-control { margin-left: 16px; }
+    .hero-search.desktop-search-mode, .header-search.desktop-search-mode {
+        --desktop-search-width: clamp(150px, 18vw, 240px);
+        width: 44px;
+        transition: width 280ms cubic-bezier(.22, 1, .36, 1);
+    }
+    .hero-search.desktop-search-mode.active, .header-search.desktop-search-mode.active { width: calc(44px + var(--desktop-search-width)); }
+    .desktop-search-mode .hero-search-toggle, .desktop-search-mode .header-search-toggle { margin-left: auto; opacity: 1 !important; pointer-events: auto !important; }
+    .desktop-search-mode .hero-search-form, .desktop-search-mode .header-search-form {
+        left: auto; right: 44px; top: 50%; width: 0; overflow: hidden;
+        transform: translateY(-50%); z-index: 3;
+        transition: width 280ms cubic-bezier(.22, 1, .36, 1), opacity 200ms ease, visibility 280ms;
+    }
+    .desktop-search-mode.active .hero-search-form, .desktop-search-mode.active .header-search-form { width: var(--desktop-search-width); }
+    .desktop-search-mode .hero-search-input, .desktop-search-mode .header-search-input { width: var(--desktop-search-width); min-width: var(--desktop-search-width); }
+    .hero-search.desktop-search-mode.active .hero-search-toggle svg, .header-search.desktop-search-mode.active .header-search-toggle svg { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-search.desktop-search-mode, .header-search.desktop-search-mode,
+    .desktop-search-mode .hero-search-form, .desktop-search-mode .header-search-form { transition: none !important; }
+}
+/* Desktop hover search reserves real layout space; mobile keeps its popover. */
 .hero-search,
 .header-search {
     position: relative;

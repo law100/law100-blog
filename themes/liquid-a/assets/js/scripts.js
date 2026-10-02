@@ -7,6 +7,7 @@
 
     var root = document.documentElement;
     var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var desktopSearch = window.matchMedia('(min-width: 783px) and (hover: hover) and (pointer: fine)');
 
     // 只有脚本正常运行时才开启隐藏动画，避免 JS 失败时内容不可见。
     root.classList.add('js-enabled');
@@ -15,6 +16,7 @@
     }
 
     function positionSearch(wrap) {
+        if (desktopSearch.matches) return;
         var input = wrap.querySelector('.hero-search-input, .header-search-input');
         if (!input) return;
         var rect = wrap.getBoundingClientRect();
@@ -104,11 +106,45 @@
         wraps.forEach(function (wrap) {
             var toggle = wrap.querySelector('.hero-search-toggle, .header-search-toggle');
             var input = wrap.querySelector('.hero-search-input, .header-search-input');
+            var form = wrap.querySelector('form');
             if (!toggle || !input) return;
+            var closeTimer;
+            var hovering = false;
+            var cancelClose = function () { window.clearTimeout(closeTimer); };
+            var keepOpen = function () { return hovering || document.activeElement === input || input.value.length > 0; };
+            var scheduleClose = function () {
+                cancelClose();
+                closeTimer = window.setTimeout(function () {
+                    if (desktopSearch.matches && !keepOpen()) setSearchState(wrap, false);
+                }, 180);
+            };
+            var syncMode = function () {
+                cancelClose(); hovering = false;
+                wrap.classList.toggle('desktop-search-mode', desktopSearch.matches);
+                setSearchState(wrap, desktopSearch.matches && (input.value.length > 0 || document.activeElement === input));
+            };
+            syncMode();
+            desktopSearch.addEventListener('change', syncMode);
+            wrap.addEventListener('mouseenter', function () {
+                hovering = true; cancelClose();
+                if (desktopSearch.matches) setSearchState(wrap, true);
+            });
+            wrap.addEventListener('mouseleave', function () { hovering = false; if (desktopSearch.matches) scheduleClose(); });
+            input.addEventListener('focus', function () { if (desktopSearch.matches) { cancelClose(); setSearchState(wrap, true); } });
+            input.addEventListener('blur', function () { if (desktopSearch.matches) scheduleClose(); });
+            input.addEventListener('input', function () { if (desktopSearch.matches) scheduleClose(); });
+            form.addEventListener('submit', function (event) {
+                if (desktopSearch.matches && !input.value.trim()) { event.preventDefault(); focusWithoutPageJump(input); }
+            });
 
-            setSearchState(wrap, false);
             toggle.addEventListener('click', function (event) {
                 event.stopPropagation();
+                if (desktopSearch.matches) {
+                    cancelClose(); setSearchState(wrap, true);
+                    if (input.value.trim()) form.requestSubmit();
+                    else focusWithoutPageJump(input);
+                    return;
+                }
                 var shouldOpen = !wrap.classList.contains('active');
                 wraps.forEach(function (other) {
                     setSearchState(other, other === wrap && shouldOpen);
@@ -124,6 +160,7 @@
 
             input.addEventListener('keydown', function (event) {
                 if (event.key === 'Escape') {
+                    cancelClose();
                     setSearchState(wrap, false);
                     focusGuard = null;
                     toggle.focus();
@@ -134,6 +171,7 @@
         document.addEventListener('click', function (event) {
             wraps.forEach(function (wrap) {
                 if (wrap.classList.contains('active') && !wrap.contains(event.target)) {
+                    if (desktopSearch.matches && (wrap.querySelector('input').value.length > 0 || wrap.contains(document.activeElement))) return;
                     setSearchState(wrap, false);
                     focusGuard = null;
                 }
