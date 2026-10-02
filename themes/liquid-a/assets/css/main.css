@@ -334,8 +334,9 @@ img {
         border: 0; border-radius: 0; background: transparent;
         box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
     }
-    .hero-search.desktop-search-mode:focus-within::before { background: #41454d; }
-    .header-search.desktop-search-mode:focus-within::before { background: var(--appearance-hover, #edf1f5); }
+    .hero-search.desktop-search-mode:focus-within::before { background: #383a3e; }
+    .header-search.desktop-search-mode:focus-within::before { background: #f3f3f4; }
+    html[data-color-mode="dark"] .header-search.desktop-search-mode:focus-within::before { background: #303236; }
     .hero-search.desktop-search-mode.active .hero-search-toggle svg, .header-search.desktop-search-mode.active .header-search-toggle svg { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
