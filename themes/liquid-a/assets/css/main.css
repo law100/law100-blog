@@ -306,21 +306,41 @@ img {
     .hero-search.desktop-search-mode, .header-search.desktop-search-mode {
         --desktop-search-width: clamp(150px, 18vw, 240px);
         width: 44px;
-        transition: width 280ms cubic-bezier(.22, 1, .36, 1);
+        height: 44px;
+        transition: width 450ms cubic-bezier(.4, 0, .2, 1);
     }
+    .hero-search.desktop-search-mode::before, .header-search.desktop-search-mode::before {
+        content: ''; position: absolute; inset: 0; border-radius: 999px;
+        border: 1px solid var(--appearance-rule, rgba(0, 0, 0, .15));
+        background: var(--appearance-input, #fff);
+        opacity: 0; pointer-events: none; transition: opacity 220ms ease;
+    }
+    .hero-search.desktop-search-mode::before { background: #303236; border-color: rgba(255, 255, 255, .35); }
+    .hero-search.desktop-search-mode.active::before, .header-search.desktop-search-mode.active::before { opacity: 1; }
     .hero-search.desktop-search-mode.active, .header-search.desktop-search-mode.active { width: calc(44px + var(--desktop-search-width)); }
+    .site-hero.hero-motion-ready .hero-search.desktop-search-mode {
+        transition: width 450ms cubic-bezier(.4, 0, .2, 1), opacity 620ms ease, transform 720ms cubic-bezier(.22, 1, .36, 1);
+    }
     .desktop-search-mode .hero-search-toggle, .desktop-search-mode .header-search-toggle { margin-left: auto; opacity: 1 !important; pointer-events: auto !important; }
+    .hero-search.desktop-search-mode.active .hero-search-toggle, .header-search.desktop-search-mode.active .header-search-toggle { background: transparent; }
     .desktop-search-mode .hero-search-form, .desktop-search-mode .header-search-form {
         left: auto; right: 44px; top: 50%; width: 0; overflow: hidden;
         transform: translateY(-50%); z-index: 3;
-        transition: width 280ms cubic-bezier(.22, 1, .36, 1), opacity 200ms ease, visibility 280ms;
+        transition: width 450ms cubic-bezier(.4, 0, .2, 1), opacity 250ms ease, visibility 450ms;
     }
     .desktop-search-mode.active .hero-search-form, .desktop-search-mode.active .header-search-form { width: var(--desktop-search-width); }
-    .desktop-search-mode .hero-search-input, .desktop-search-mode .header-search-input { width: var(--desktop-search-width); min-width: var(--desktop-search-width); }
+    .hero-search.desktop-search-mode .hero-search-input, .header-search.desktop-search-mode .header-search-input {
+        width: var(--desktop-search-width); min-width: var(--desktop-search-width);
+        border: 0; border-radius: 0; background: transparent;
+        box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    }
+    .desktop-search-mode:focus-within::before { box-shadow: inset 0 0 0 1px currentColor; }
     .hero-search.desktop-search-mode.active .hero-search-toggle svg, .header-search.desktop-search-mode.active .header-search-toggle svg { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
     .hero-search.desktop-search-mode, .header-search.desktop-search-mode,
+    .site-hero.hero-motion-ready .hero-search.desktop-search-mode,
+    .hero-search.desktop-search-mode::before, .header-search.desktop-search-mode::before,
     .desktop-search-mode .hero-search-form, .desktop-search-mode .header-search-form { transition: none !important; }
 }
 /* Desktop hover search reserves real layout space; mobile keeps its popover. */
