@@ -2117,24 +2117,14 @@ input.header-search-input {
 
 input.hero-search-input::-webkit-search-cancel-button,
 input.header-search-input::-webkit-search-cancel-button {
-    -webkit-appearance: searchfield-cancel-button;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-input.hero-search-input::-webkit-search-cancel-button {
-    filter: grayscale(1) brightness(0) invert(1);
-}
-
-input.header-search-input::-webkit-search-cancel-button {
-    filter: grayscale(1) brightness(0);
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
 }
 
 input.hero-search-input::-ms-clear,
 input.header-search-input::-ms-clear {
-    width: 16px;
-    height: 16px;
+    display: none;
 }
 
 @media (max-width: 480px) {
