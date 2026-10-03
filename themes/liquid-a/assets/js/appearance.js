@@ -11,7 +11,7 @@
         return modes.indexOf(value) === -1 ? 'light' : value;
     }
     var preference = 'light';
-    var feedbackTimer, transitionTimer;
+    var transitionTimer;
     try {
         var stored = localStorage.getItem(key);
         preference = normalize(stored);
@@ -32,7 +32,6 @@
         var label = '当前：' + names[preference] + '；点击切换为' + names[modes[(modes.indexOf(preference) + 1) % modes.length]];
         document.querySelectorAll('.appearance-control').forEach(function (control) {
             control.querySelector('button').setAttribute('aria-label', label);
-            control.querySelector('.appearance-tip').textContent = label;
         });
     }
     render(false);
@@ -59,12 +58,6 @@
                 try { localStorage.setItem(key, preference); } catch (_) { /* In-memory switching still works. */ }
                 render(true);
                 status.textContent = '已切换为' + names[preference];
-                document.querySelectorAll('.appearance-control').forEach(function (control) { control.classList.remove('show-feedback'); });
-                var control = button.parentElement;
-                control.querySelector('.appearance-tip').textContent = names[preference];
-                control.classList.add('show-feedback');
-                clearTimeout(feedbackTimer);
-                feedbackTimer = setTimeout(function () { control.classList.remove('show-feedback'); render(false); }, 1400);
             });
         });
     });

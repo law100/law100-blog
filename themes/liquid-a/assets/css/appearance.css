@@ -70,9 +70,6 @@ html[data-appearance] .appearance-control { display:block; }
 .appearance-icon { display:none; width:22px; height:22px; }
 .appearance-toggle svg,.hero-search-toggle svg,.header-search-toggle svg { width:22px; height:22px; stroke-width:1.75; }
 html[data-appearance="light"] .appearance-icon--light,html[data-appearance="dark"] .appearance-icon--dark { display:block; }
-.appearance-tip { position:absolute; z-index:20; right:0; top:calc(100% + 8px); width:max-content; max-width:calc(100vw - 32px); padding:7px 10px; border:1px solid var(--appearance-rule,#d8dadd); border-radius:6px; color:var(--color-text); background:var(--appearance-input,#fff); font:400 12px/1.5 var(--font-main); opacity:0; visibility:hidden; pointer-events:none; }
-.appearance-control:has(.appearance-toggle:focus-visible) .appearance-tip,.appearance-control.show-feedback .appearance-tip { opacity:1; visibility:visible; }
-@media(hover:hover) { .appearance-control:hover .appearance-tip { opacity:1; visibility:visible; } }
 .hero-top,.site-header .header-inner { column-gap:8px; }
 .main-navigation,.hero-nav { margin-left:auto; }
 @media(max-width:782px) {
