@@ -9,6 +9,12 @@ get_header();
 
 $changelog_entries = array(
 	array(
+		'iteration' => 'ITERATION 19', 'date' => '2026-10-03',
+		'title' => '搬到 law100 的首页',
+		'summary' => '正式地址更换为 home.law100.xyz，站名统一为 law100的首页。',
+		'changes' => array( '旧 blog 地址保留文章路径和查询参数，永久跳转到新地址。', '更新 HTTPS、WordPress 正式地址与 Savio 网页来源校验，保留账户、文章和评论数据。', '原域名与新域名分别保留证书及续期配置；其他独立站点保持不变。' ),
+	),
+	array(
 		'iteration' => 'ITERATION 18', 'date' => '2026-10-03',
 		'title' => '让首页手写题字更快出现',
 		'summary' => '保留原来的手写字形，首页只加载题字所需的 13 个字。',
