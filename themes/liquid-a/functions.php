@@ -93,7 +93,7 @@ function liquidglass_scripts() {
 	wp_enqueue_style( 'liquidglass-style', get_stylesheet_uri(), array(), liquidglass_asset_version( 'style.css' ) );
 	// 自定义主样式（毛玻璃效果等）
 	wp_enqueue_style( 'liquidglass-main', LIQUIDGLASS_THEME_URI . '/assets/css/main.css', array(), liquidglass_asset_version( 'assets/css/main.css' ) );
-	if ( is_front_page() && is_home() && file_exists( LIQUIDGLASS_THEME_DIR . '/assets/fonts/pingfang-shangshangqian.ttf' ) ) {
+	if ( is_front_page() && is_home() && ( file_exists( LIQUIDGLASS_THEME_DIR . '/assets/fonts/hero-handwriting-13.woff2' ) || file_exists( LIQUIDGLASS_THEME_DIR . '/assets/fonts/pingfang-shangshangqian.ttf' ) ) ) {
 		wp_enqueue_style( 'law100-hero-font', LIQUIDGLASS_THEME_URI . '/assets/css/hero-font.css', array( 'liquidglass-main' ), liquidglass_asset_version( 'assets/css/hero-font.css' ) );
 	}
 
@@ -356,14 +356,20 @@ function liquidglass_preload_hero_font() {
 
 	$font_path = get_template_directory() . '/assets/fonts/pingfang-shangshangqian.ttf';
 	$font_url  = get_template_directory_uri() . '/assets/fonts/pingfang-shangshangqian.ttf';
+	$font_type = 'font/ttf';
+	if ( file_exists( get_template_directory() . '/assets/fonts/hero-handwriting-13.woff2' ) ) {
+		$font_path = get_template_directory() . '/assets/fonts/hero-handwriting-13.woff2';
+		$font_url = get_template_directory_uri() . '/assets/fonts/hero-handwriting-13.woff2?v=20261003';
+		$font_type = 'font/woff2';
+	}
 
 	if ( ! file_exists( $font_path ) ) {
 		return;
 	}
 
 	printf(
-		'<link rel="preload" href="%s" as="font" type="font/ttf" crossorigin>' . "\n",
-		esc_url( $font_url )
+		'<link rel="preload" href="%s" as="font" type="%s" crossorigin>' . "\n",
+		esc_url( $font_url ), esc_attr( $font_type )
 	);
 }
 add_action( 'wp_head', 'liquidglass_preload_hero_font', 2 );

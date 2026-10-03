@@ -43,6 +43,30 @@
 
     function initHeroReveal() {
         var hero = document.querySelector('.site-hero');
+        if (hero && document.fonts) {
+            var message = hero.querySelector('.hero-typewriter-text');
+            var title = hero.querySelector('.hero-message');
+            if (message && title && getComputedStyle(title).fontFamily.indexOf('Law100 ShangShangQian') !== -1) {
+                hero.classList.add('hero-font-pending');
+                var fontTimer = window.setTimeout(function () {
+                    hero.classList.remove('hero-font-pending');
+                    hero.classList.add('hero-font-unavailable');
+                }, 8000);
+                var loadHeroFont = function () {
+                    document.fonts.load('400 40px "Law100 ShangShangQian"', message.textContent).then(function (faces) {
+                        if (!faces.length) throw new Error('Hero font unavailable');
+                        window.clearTimeout(fontTimer);
+                        hero.classList.remove('hero-font-pending', 'hero-font-unavailable');
+                    }).catch(function () {
+                        window.clearTimeout(fontTimer);
+                        hero.classList.remove('hero-font-pending');
+                        hero.classList.add('hero-font-unavailable');
+                    });
+                };
+                loadHeroFont();
+                window.addEventListener('online', loadHeroFont);
+            }
+        }
         if (!hero || reduceMotion || !window.requestAnimationFrame) return;
 
         // 只在脚本确认可用后才启用初始状态，脚本失败时首屏仍保持可见。

@@ -1,7 +1,8 @@
 /* The site owner's original font is optional and is not redistributed. */
 @font-face {
     font-family: "Law100 ShangShangQian";
-    src: url("../fonts/pingfang-shangshangqian.ttf") format("truetype");
+    src: url("../fonts/hero-handwriting-13.woff2?v=20261003") format("woff2"),
+        url("../fonts/pingfang-shangshangqian.ttf") format("truetype");
     font-style: normal;
     font-weight: 400;
     font-display: swap;
@@ -9,4 +10,21 @@
 
 .site-hero .hero-message {
     font-family: "Law100 ShangShangQian", "STKaiti", "KaiTi", cursive;
+}
+
+.site-hero.hero-font-pending .hero-typewriter-wrap {
+    visibility: hidden;
+    animation: none;
+}
+
+/* If loading fails, keep the full message readable rather than clipped. */
+.site-hero.hero-font-unavailable .hero-message {
+    width: max-content;
+    max-width: 94vw;
+    font-size: min(6.5vw, 4rem);
+}
+.site-hero.hero-font-unavailable .hero-typewriter-wrap {
+    width: auto;
+    border-right: 0;
+    animation: none;
 }
